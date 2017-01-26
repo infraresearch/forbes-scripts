@@ -11,12 +11,6 @@
 //     Ширину ставим по центральной верхней точке;
 //  Высота страницы равна высоте всех выделенных элементов.
 
-// Переделываем 
-
-// 1. внешние ссылки
-// 2. Object state
-// 3. Scrollable frames
-
 
 if (app.documents.length==0) {
       alert("Нет открытых документов. Откройте нужный документ и запустите скрипт еще раз.");
@@ -58,17 +52,18 @@ if (app.documents.length==0) {
         var delLayer2 = curDoc.layers.item("Device bezel");
         var delLayer3 = curDoc.layers.item("Device portrait");
         var delLayer4 = curDoc.layers.item("Device landscape");
+        var delLayer5 = curDoc.layers.item("Transition guides - place at position where slides transition");
 
         delLayer1.remove();
         delLayer2.remove();
         delLayer3.remove();
         delLayer4.remove();
+        delLayer5.remove();
 
     // Размеры (мм)
 
         var preResize = curDocPref.pageWidth;
         var resizeWidth = (147.797 / 197);
-        var resizeHeigth = 0;
 
 
     // Устанавлем поля
@@ -78,7 +73,7 @@ if (app.documents.length==0) {
 
     // Расставляем пустые маркеры
 
-    makeMark();
+    // makeMark();
     makeGroup();
 
     // ставим новые поля для каждой страницы
@@ -94,7 +89,7 @@ if (app.documents.length==0) {
 
     // приводим размеры страницы
 
-    makeHeightAndWidth();
+    makeWidth();
 
     //Разгруппируем объекты
 
@@ -116,33 +111,23 @@ if (app.documents.length==0) {
   //////////////////
 
 
-  function makeHeightAndWidth() {
+  function makeWidth() {
           for (var i = 0; i < curDoc.pages.length; i++) {
           if (curDoc.pages.item(i).groups.length > 0){
-            resizeHeigth = curDoc.pages.item(i).pageItems.item(0).geometricBounds[2];
-            var resizeHeigthM = resizeHeigth / curDocPrefHeight;
+
+            // resizeHeigth = curDoc.pages.item(i).pageItems.item(0).geometricBounds[2];
+
+                
+
             curDoc.pages.item(i).resize(
                         CoordinateSpaces.INNER_COORDINATES, 
                         AnchorPoint.topCenterAnchor, 
                         ResizeMethods.MULTIPLYING_CURRENT_DIMENSIONS_BY,
-                        [resizeWidth, resizeHeigthM] );
+                        [resizeWidth, 1] );
           }
           else {
             continue;
           }
-        }
-      }
-
-
-  function makeMark() {
-        var myX = 0;
-        var myY = 0;
-        var myColorNone = curDoc.swatches.item("None");
-
-        for (var i = 0; i < curDoc.pages.length; i++) {
-          var myRectangle = curDoc.pages.item(i).rectangles.add(
-              {fillColor: myColorNone, strokeColor: myColorNone,
-              geometricBounds: [myY, myX, (myY +10), (myX + 10)]});
         }
       }
 
@@ -159,6 +144,9 @@ if (app.documents.length==0) {
               myArray.push(curDoc.pages.item(i).pageItems.item(j));
             }
             curDoc.pages.item(i).groups.add(myArray);
+
+            // var pageH = (curDoc.pages.item(i).groups.item(0).geometricBounds[2]);
+            // resizeHeigthArr.push(pageH);
           }
         }
       }
