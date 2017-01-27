@@ -1,6 +1,7 @@
 # Convert Mag+ to Adobe DPS
 
 Скрипты для переноса документов с платформы Mag+ на Adobe DPS
+
 InDesign ExtendScript API (8.0), почти всё работает под InDesign ExtendScript API (12.0)
 
 mag2adps/mag2adps_01.jsx - выполняет приведение mag+ объектов к объектам ADPS, 
